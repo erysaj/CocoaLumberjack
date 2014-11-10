@@ -855,7 +855,7 @@
 		logMsg = [formatter formatLogMessage:logMessage];
 	}
 	
-	if (logMsg)
+	if (logMsg && !errorsOccurred)
 	{
 		if (![logMsg hasSuffix:@"\n"])
 		{
@@ -864,7 +864,14 @@
 		
 		NSData *logData = [logMsg dataUsingEncoding:NSUTF8StringEncoding];
 		
-		[[self currentLogFileHandle] writeData:logData];
+        @try
+        {
+            [[self currentLogFileHandle] writeData:logData];
+        }
+        @catch (NSException *exc)
+        {
+            errorsOccurred = YES;
+        }
 		
 		[self maybeRollLogFileDueToSize];
 	}

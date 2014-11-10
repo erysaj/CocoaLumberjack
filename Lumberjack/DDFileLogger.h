@@ -179,6 +179,8 @@
 	
 	unsigned long long maximumFileSize;
 	NSTimeInterval rollingFrequency;
+    
+    BOOL errorsOccurred;
 }
 
 - (id)init;
